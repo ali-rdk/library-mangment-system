@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import yup from "yup";
 
-export const SignInRequestSchema = yup.object({
+export const SignUpRequestSchema = yup.object({
   body: yup
     .object({
       username: yup.string().required(),
@@ -12,7 +12,7 @@ export const SignInRequestSchema = yup.object({
     .required(),
 });
 
-export const SingUpRequestSchema = yup.object({
+export const SingInRequestSchema = yup.object({
   body: yup
     .object({
       email: yup.string().email().required(),
