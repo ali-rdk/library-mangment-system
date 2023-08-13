@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import appRootPath from "app-root-path";
+import { AuthRoutes } from "./routes/auth/index.mjs";
 
 dotenv.config({ path: appRootPath.resolve("/.env") });
 
@@ -19,6 +20,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/auth/", AuthRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`app is running on port ${process.env.PORT}`);
