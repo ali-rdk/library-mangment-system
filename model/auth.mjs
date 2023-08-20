@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
-import yup from "yup";
+import { model, Schema } from "mongoose";
+import yup, { string } from "yup";
 
 export const SignUpRequestSchema = yup.object({
   body: yup
@@ -25,6 +25,8 @@ const UserSchema = Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  refreshToken: [String],
+  roles: { type: String, enum: ["basic", "librarian", "admin"] },
 });
 
 export const User = model("User", UserSchema);
