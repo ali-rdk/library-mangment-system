@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import yup, { string } from "yup";
+import { ROLES } from "./roles.mjs";
 
 export const SignUpRequestSchema = yup.object({
   body: yup
@@ -26,7 +27,7 @@ const UserSchema = Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   refreshToken: [String],
-  roles: { type: String, enum: ["basic", "librarian", "admin"] },
+  roles: { type: String, enum: [ROLES.BASIC, ROLES.LIBRARIAN, ROLES.ADMIN] },
 });
 
 export const User = model("User", UserSchema);
