@@ -15,12 +15,13 @@ export const RequestValidator = (schema) => {
   };
 };
 
-export const tokenValidate = ({ headers }, res, next) => {
-  const authHeader = headers["authorization"];
+export const tokenValidate = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
 
   const accessToken = authHeader.split(" ")[1];
   jwt.verify(accessToken, process.env.ACCESS_SECRET_KEY, (err, decoded) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.status(403).json({ msg: err });
+    req.user = decoded;
     next();
   });
 };

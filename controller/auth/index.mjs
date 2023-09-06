@@ -28,7 +28,6 @@ export const SignUpController = async ({ body }, res) => {
 export const SignInController = async ({ body, cookies }, res) => {
   try {
     const user = await User.findOne({ username: body.username });
-    // return res.json(user);
     if (!user)
       return res
         .status(401)
@@ -37,19 +36,19 @@ export const SignInController = async ({ body, cookies }, res) => {
     const comparePassword = await bcrypt.compare(body.password, user.password);
     if (!comparePassword)
       return res.status(401).json({ error: "password or username is wrong" });
-    const { userPassword, ...restUser } = user;
+    const { refreshToken, password, _id, __v, ...restUser } = user._doc;
 
     const accessToken = jwt.sign(
       { ...restUser },
       process.env.ACCESS_SECRET_KEY,
       {
-        expiresIn: "20s",
+        expiresIn: "30m",
       }
     );
     const newRefreshToken = jwt.sign(
       { ...restUser },
       process.env.REFRESH_SECRET_KEY,
-      { expiresIn: "40s" }
+      { expiresIn: "1d" }
     );
 
     // let newRefreshTokenArray = !cookies?.refreshToken ? user.refreshToken : user.refreshToken.filter(token => token !== cookies.refreshToken)
